@@ -3,9 +3,9 @@ package org.usfirst.frc.team1165.robot.subsystems;
 import org.usfirst.frc.team1165.robot.Robot;
 import org.usfirst.frc.team1165.robot.RobotMap;
 import org.usfirst.frc.team1165.robot.commands.OperateLinearActuatorWithJoystick;
-import org.usfirst.frc.team1165.wpilibj.command.PIDSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
