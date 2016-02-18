@@ -36,6 +36,6 @@ public class OI
 	public double getActuatorSpeed()
 	{
 		
-		return leftStick.getY();
+		return -leftStick.getY();
 	}
 }

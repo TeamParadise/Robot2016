@@ -28,7 +28,7 @@ public class OperateLinearActuatorWithJoystick extends Command
 		double speed = Robot.oi.getActuatorSpeed();
 		// Treat a zone around the center position as zero to prevent fluctuating
 		// motor speeds when the joystick is at rest in the center position.
-		Robot.linearActuator.setSpeed(Math.abs(speed) >= .1 ? -speed : 0);
+		Robot.linearActuator.setSpeed(Math.abs(speed) >= .1 ? speed : 0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

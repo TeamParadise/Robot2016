@@ -50,7 +50,6 @@ public class LinearActuatorPID extends PIDSubsystem
 		
         // Construct the motor that drives the actuator.
 		motor = new CANTalon(RobotMap.linearActuatorMotorChannel);
-		motor.setInverted(true);
 
 		// Let's show everything on the LiveWindow:
         LiveWindow.addActuator("Actuator", "Motor", motor);
@@ -94,7 +93,7 @@ public class LinearActuatorPID extends PIDSubsystem
 	public void setSpeed(double speed)
 	{
 		SmartDashboard.putNumber(RobotMap.linearActuatorSpeedKey, speed);
-		motor.set(-speed);
+		motor.set(speed);
 		if (Math.abs(speed) > Math.abs(maxSetSpeed))
 		{
 			maxSetSpeed = speed;
