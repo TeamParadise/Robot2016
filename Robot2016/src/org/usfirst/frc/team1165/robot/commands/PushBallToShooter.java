@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class PushBallToShooter extends Command
 {
 	double timeout;
-    public PushBallToShooter() 
+    public PushBallToShooter(double timeout) 
     {
+    	super(timeout);
         // Use requires() here to declare subsystem dependencies
         requires(Robot.moveServo);
     }
@@ -23,14 +24,15 @@ public class PushBallToShooter extends Command
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
+    	if(Robot.shooter.rightWheel.getSpeed()>4700)
     	Robot.moveServo.push();
-    	Robot.moveServo.report();
+    	//Robot.moveServo.report();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
-        return Robot.moveServo.servo1.getAngle()==0;
+    	return isTimedOut();
     }
 
     // Called once after isFinished returns true

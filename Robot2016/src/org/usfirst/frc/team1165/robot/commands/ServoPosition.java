@@ -22,7 +22,8 @@ public class ServoPosition extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-    	Robot.moveServo.angle(RobotMap.SERVO_STICK);
+    	//Robot.moveServo.angle(RobotMap.SERVO_STICK);
+    	Robot.moveServo.protectServo();
     	SmartDashboard.putNumber("Servo Angle", Robot.moveServo.getAngle());
     }
 
@@ -33,13 +34,14 @@ public class ServoPosition extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.moveServo.angle(RobotMap.SERVO_STICK);
+    	
+    	//Robot.moveServo.angle(RobotMap.SERVO_STICK);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted()
     {
-    	Robot.moveServo.push();
+    	//Robot.moveServo.push();
     }
 }

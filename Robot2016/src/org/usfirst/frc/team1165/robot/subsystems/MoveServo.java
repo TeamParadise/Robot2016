@@ -23,14 +23,22 @@ public class MoveServo extends Subsystem {
     {
     	setDefaultCommand(new ServoPosition());
     }
-   public void angle(Joystick stick)
+    public boolean protectServo()
+    //make sure that if the wheels are going in or we are less than 3500 rpm out
+    //that we don't let the servo out so the ball can't break it
+    {
+    	boolean retract = Robot.shooter.rightWheel.getSpeed() < 3500;
+    	if (retract) servo1.setAngle(maxAngle);
+    	return retract;
+    }
+    /*public void angle(Joystick stick)
     {
     	double angle=Robot.shooter.rightWheel.getSpeed() >=3500 && Robot.oi.ServoButton.get()? 0 : maxAngle;
        	servo1.setAngle(angle);
-    }
+    }*/
     public void push()
     {
-    	servo1.setAngle(0);
+    	if (!protectServo()) servo1.setAngle(0);
     }
     public void idle()
     {
@@ -39,6 +47,10 @@ public class MoveServo extends Subsystem {
     public double getAngle()
     {
     	return servo1.getAngle();
+    }
+    public boolean servoExtended()
+    {
+    	return servo1.getAngle() == 0;
     }
     public void report()
     {

@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Shooter extends Subsystem 
 {
-    CANTalon leftWheel;
-    CANTalon rightWheel;
+	public CANTalon leftWheel;
+    public CANTalon rightWheel;
 	public Shooter()
 	{
 		leftWheel = new CANTalon(0);

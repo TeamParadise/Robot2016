@@ -30,7 +30,7 @@ public class OI
 		
 		pushOutButton.whenPressed(new ShootAtHighGoal());
 		pickupButton.whenPressed(new PickupBall());
-		ServoButton.whenPressed(new PushBallToShooter());
+		ServoButton.whenPressed(new PushBallToShooter(2));
 	}
 	
 	public double getActuatorSpeed()

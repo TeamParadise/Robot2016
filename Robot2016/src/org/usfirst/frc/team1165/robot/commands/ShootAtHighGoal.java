@@ -10,10 +10,10 @@ public class ShootAtHighGoal extends CommandGroup {
     
     public  ShootAtHighGoal() 
     {
-    	addSequential(new SetLinearActuatorSetpoint(2.175));
-    	addSequential(new SpinShooterWheelsOut(5000));
-    	addSequential(new WaitCommand(0.5));
-    	addParallel(new PushBallToShooter());
+    	addSequential(new SetLinearActuatorSetpoint(1.5));
+    	addParallel(new PushBallToShooter(5));
+    	addSequential(new SpinShooterWheelsOut(-5000));
+    	//addSequential(new WaitCommand(0.5));
     	addSequential(new SetLinearActuatorSetpoint(0.9));
     }
 }

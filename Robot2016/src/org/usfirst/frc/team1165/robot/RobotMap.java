@@ -24,7 +24,7 @@ public class RobotMap
     
     public static final int PICKUP_BUTTON_NUMBER					= 9;
     public static final int SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER		= 10;
-    public static final int SERVO_BUTTON_NUMBER = 2;
+    public static final int SERVO_BUTTON_NUMBER = 1;
     public static final int linearActuatorMotorChannel		= 3;
     
     public static final int linearActuatorSensorPort		= 0;
