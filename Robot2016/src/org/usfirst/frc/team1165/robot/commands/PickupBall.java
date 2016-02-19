@@ -11,7 +11,7 @@ public class PickupBall extends CommandGroup {
     public  PickupBall()
     {
     	addSequential(new SetLinearActuatorSetpoint(5.75));
-    	addSequential(new SuckInBall(-4000));
+    	addSequential(new SuckInBall(4000));//Drives Right Wheel Positive
     	addSequential(new SetLinearActuatorSetpoint(0.9));
     	//addSequential(new DriveShooterWithJoysticks());
     }

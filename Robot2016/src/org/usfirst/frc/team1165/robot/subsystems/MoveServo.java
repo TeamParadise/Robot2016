@@ -27,8 +27,11 @@ public class MoveServo extends Subsystem {
     //make sure that if the wheels are going in or we are less than 3500 rpm out
     //that we don't let the servo out so the ball can't break it
     {
-    	boolean retract = Robot.shooter.rightWheel.getSpeed() < 3500;
-    	if (retract) servo1.setAngle(maxAngle);
+    	boolean retract = Robot.shooter.rightWheel.getSpeed() > -3500;
+    	if (retract)
+    	{
+    		servo1.setAngle(maxAngle);
+    	}
     	return retract;
     }
     /*public void angle(Joystick stick)
