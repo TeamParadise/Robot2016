@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1165.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team1165.robot.subsystems.Camera;
 import org.usfirst.frc.team1165.robot.subsystems.Camera.CameraMode;
+import org.usfirst.frc.team1165.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1165.robot.subsystems.LinearActuatorPID;
 import org.usfirst.frc.team1165.robot.subsystems.LinearActuatorSensor;
 import org.usfirst.frc.team1165.robot.subsystems.MoveServo;
@@ -21,9 +23,9 @@ import org.usfirst.frc.team1165.robot.subsystems.Shooter;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
-
-	//public static final LinearActuator linearActuator = new LinearActuator();
+public class Robot extends IterativeRobot 
+{
+	public static final DriveTrain robotDrive = new DriveTrain();
 	public static final LinearActuatorSensor linearActuatorSensor = new LinearActuatorSensor();
 	public static final LinearActuatorPID linearActuator = new LinearActuatorPID();
 	public static final MoveServo moveServo = new MoveServo();

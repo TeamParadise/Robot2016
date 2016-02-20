@@ -5,6 +5,7 @@ import org.usfirst.frc.team1165.robot.commands.PushBallToShooter;
 import org.usfirst.frc.team1165.robot.commands.ShootAtHighGoal;
 import org.usfirst.frc.team1165.robot.commands.SuckInBall;
 import org.usfirst.frc.team1165.robot.commands.SetLinearActuatorSetpoint;
+import org.usfirst.frc.team1165.util.Gamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -19,6 +20,7 @@ public class OI
 {
 	public final Joystick leftStick = new Joystick(1);
 	public final Joystick rightStick = new Joystick(0);
+	public final Gamepad gamepad = new Gamepad(2);
 	public final Button ServoButton = new JoystickButton(rightStick,RobotMap.SERVO_BUTTON_NUMBER);
 	public final Button pickupButton = new JoystickButton(rightStick,RobotMap.PICKUP_BUTTON_NUMBER);
 	public final Button pushOutButton = new JoystickButton(rightStick,RobotMap.SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER);
