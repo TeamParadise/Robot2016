@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveWithGamepad extends Command {
+public class DriveWithJoystick extends Command {
 
-    public DriveWithGamepad() 
+    public DriveWithJoystick() 
     {
     	requires(Robot.robotDrive);
     }
@@ -21,7 +21,7 @@ public class DriveWithGamepad extends Command {
 
     protected void execute()
     {
-    	Robot.robotDrive.tankDrive();
+    	Robot.robotDrive.arcadeDrive();
     }
 
     // Make this return true when this Command no longer needs to run execute()

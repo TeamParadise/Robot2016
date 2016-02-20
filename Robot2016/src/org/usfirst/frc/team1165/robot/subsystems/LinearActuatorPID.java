@@ -2,7 +2,7 @@ package org.usfirst.frc.team1165.robot.subsystems;
 
 import org.usfirst.frc.team1165.robot.Robot;
 import org.usfirst.frc.team1165.robot.RobotMap;
-import org.usfirst.frc.team1165.robot.commands.OperateLinearActuatorWithJoystick;
+import org.usfirst.frc.team1165.robot.commands.OperateLinearActuatorWithGamepad;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -50,7 +50,7 @@ public class LinearActuatorPID extends PIDSubsystem
 		
         // Construct the motor that drives the actuator.
 		motor = new CANTalon(RobotMap.linearActuatorMotorChannel);
-
+		motor.setInverted(true);
 		// Let's show everything on the LiveWindow:
         LiveWindow.addActuator("Actuator", "Motor", motor);
         LiveWindow.addSensor("Actuator", "Pot", Robot.linearActuatorSensor.getPot());
@@ -65,7 +65,7 @@ public class LinearActuatorPID extends PIDSubsystem
 	{
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new OperateLinearActuatorWithJoystick());
+		setDefaultCommand(new OperateLinearActuatorWithGamepad());
 	}
 	
 	public void resetSpeeds()

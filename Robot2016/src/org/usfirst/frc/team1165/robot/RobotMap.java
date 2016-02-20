@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1165.robot;
 
+import org.usfirst.frc.team1165.util.Gamepad;
+import org.usfirst.frc.team1165.util.Gamepad.Button;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -22,14 +25,15 @@ public class RobotMap
 	
     public static final int joystickPort0					= 0;
     
-    public static final int PICKUP_BUTTON_NUMBER					= 9;
-    public static final int SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER		= 10;
-    public static final int SERVO_BUTTON_NUMBER = 1;
+    public static final int PICKUP_BUTTON_NUMBER				= Gamepad.Button.RIGHT_BUMP.getValue();
+    public static final int SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER	= Gamepad.Button.LEFT_BUMP.getValue();
+    public static final int SERVO_BUTTON_NUMBER 				= Gamepad.Button.Y.getValue();
+    
     public static final int linearActuatorMotorChannel		= 3;
     
     public static final int linearActuatorSensorPort		= 0;
     
-    public static final Joystick SERVO_STICK = Robot.oi.rightStick;
+    //public static final Joystick SERVO_STICK = Robot.oi.rightStick;
     
     public static final String linearActuatorSpeedKey		= "Linear Actuator Speed";
     public static final String linearActuatorSpeedMaxKey	= "Linear Actuator Speed Max";

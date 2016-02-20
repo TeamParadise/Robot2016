@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveShooterWithJoysticks extends Command {
+public class DriveShooterWithGamepad extends Command {
 
-    public DriveShooterWithJoysticks()
+    public DriveShooterWithGamepad()
     {
         requires(Robot.shooter);
     }

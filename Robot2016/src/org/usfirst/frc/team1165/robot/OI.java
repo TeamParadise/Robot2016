@@ -7,6 +7,7 @@ import org.usfirst.frc.team1165.robot.commands.SuckInBall;
 import org.usfirst.frc.team1165.robot.commands.SetLinearActuatorSetpoint;
 import org.usfirst.frc.team1165.util.Gamepad;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -18,12 +19,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI
 {
-	public final Joystick leftStick = new Joystick(1);
-	public final Joystick rightStick = new Joystick(0);
-	public final Gamepad gamepad = new Gamepad(2);
-	public final Button ServoButton = new JoystickButton(rightStick,RobotMap.SERVO_BUTTON_NUMBER);
-	public final Button pickupButton = new JoystickButton(rightStick,RobotMap.PICKUP_BUTTON_NUMBER);
-	public final Button pushOutButton = new JoystickButton(rightStick,RobotMap.SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER);
+	public final Joystick leftStick = new Joystick(0);
+	//public final Joystick rightStick = new Joystick(0);
+	public final Gamepad gamepad = new Gamepad(1);
+	public final JoystickButton servoButton = new JoystickButton(gamepad, RobotMap.SERVO_BUTTON_NUMBER);
+	public final JoystickButton pickupButton = new JoystickButton(gamepad,RobotMap.PICKUP_BUTTON_NUMBER);
+	public final JoystickButton pushOutButton = new JoystickButton(gamepad,RobotMap.SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER);
 	public OI()
 	{
 		SmartDashboard.putNumber(RobotMap.linearActuatorSetpointKey, 2.50);
@@ -32,12 +33,12 @@ public class OI
 		
 		pushOutButton.whenPressed(new ShootAtHighGoal());
 		pickupButton.whenPressed(new PickupBall());
-		ServoButton.whenPressed(new PushBallToShooter(2));
+		servoButton.whenPressed(new PushBallToShooter(2));
 	}
 	
 	public double getActuatorSpeed()
 	{
 		
-		return -leftStick.getY();
+		return -Robot.oi.gamepad.getY(Hand.kLeft);
 	}
 }

@@ -95,6 +95,7 @@ public class Gamepad extends Joystick
 	@Override
 	public double getZ(Hand hand)
 	{
-		return 0;
+		Axis axis = hand == Hand.kLeft ? Axis.LEFT_TRIG : Axis.RIGHT_TRIG;
+		return getRawAxis(axis.getValue());
 	}
 }

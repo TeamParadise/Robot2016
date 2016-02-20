@@ -1,11 +1,13 @@
 package org.usfirst.frc.team1165.robot.subsystems;
 
 import org.usfirst.frc.team1165.robot.Robot;
-import org.usfirst.frc.team1165.robot.commands.DriveShooterWithJoysticks;
+import org.usfirst.frc.team1165.robot.commands.DriveShooterWithGamepad;
+import org.usfirst.frc.team1165.util.Gamepad;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -40,14 +42,19 @@ public class Shooter extends Subsystem
 	}
     public void initDefaultCommand()
     {
-        setDefaultCommand(new DriveShooterWithJoysticks());
+        setDefaultCommand(new DriveShooterWithGamepad());
     }
     public void driveShooter()
     {
-    	if(Math.abs(Robot.oi.rightStick.getY()) > 0.1)
+    	if(Robot.oi.gamepad.getZ(Hand.kRight)>0.1)
     	{
-    		leftWheel.set(Robot.oi.rightStick.getY());
-    		rightWheel.set(-Robot.oi.rightStick.getY());    		
+    		leftWheel.set(Robot.oi.gamepad.getZ(Hand.kRight));
+    		rightWheel.set(-Robot.oi.gamepad.getZ(Hand.kRight));    		
+    	}
+    	else if(Robot.oi.gamepad.getZ(Hand.kLeft)>0.1)
+    	{
+    		leftWheel.set(-Robot.oi.gamepad.getZ(Hand.kLeft));
+    		rightWheel.set(Robot.oi.gamepad.getZ(Hand.kLeft));
     	}
     	else
     	{

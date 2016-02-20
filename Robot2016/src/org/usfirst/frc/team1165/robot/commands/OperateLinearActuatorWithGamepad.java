@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Operates the linear actuator using input from a joystick
  */
-public class OperateLinearActuatorWithJoystick extends Command
+public class OperateLinearActuatorWithGamepad extends Command
 {
 
-	public OperateLinearActuatorWithJoystick()
+	public OperateLinearActuatorWithGamepad()
 	{
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
