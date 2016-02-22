@@ -2,11 +2,11 @@ package org.usfirst.frc.team1165.robot.subsystems;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.usfirst.frc.team1165.robot.Robot;
-import org.usfirst.frc.team1165.robot.RobotMap;
+
+
+
 import org.usfirst.frc.team1165.robot.commands.ProcessCameraFrames;
 
 import com.ni.vision.NIVision;
@@ -16,91 +16,60 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Subsystem to access USB camera.
  */
 public class Camera extends Subsystem implements Runnable
 {
 	public enum CameraMode { SUBSYSTEM, THREAD };
-
-	private int primarySession;
-	private int secondarySession;
-	private int currentSession;
-	private boolean hasSecondaryCamera;
-	private Image frame;
-	private CameraMode mode;
 	
-	// This file on the roboRIO file system is used to store dumps of exceptions related to the camera:
-	private final static String exceptionLogFile = "/home/lvuser/data/CameraException.txt";
+	private CameraMode cameraMode;
+
+	// The following are used to access the camera and data from the camera:
+	private int session;
+	private Image frame;
+	
+	// The directory in which to put data files:
+	private final static String dataDirectory = "/home/lvuser/data";
 	
 	// This file on the roboRIO file system is used to store a list of the supported video modes:
-	private final static String videoModesFile = "/home/lvuser/data/NIVision_VideoModes.txt";
+	private final static String videoModesFile = "NIVision_VideoModes.txt";
 	
 	// This file on the roboRIO file system is used to store a list of the various vision attributes:
-	private final static String visionAttributesFile = "/home/lvuser/data/NIVision_Attributes.txt";
+	private final static String visionAttributesFile = "NIVision_Attributes.txt";
 	
 	// The default video mode. To see what modes are supported, load the robot code at
 	// least once and look at the file indicated by videoModesFile above.
 	private final static String videoMode = "640 x 480 YUY 2 30.00 fps";
 	
+	// Milliseconds between frames processed by the stand alone thread.
+	private final static int interFrameTimeMillis = 20;
+
 	/**
+	 * Constructor.
 	 * 
-	 * @param mode Indicates if should run Camera as a SUBSYSTEM or a RUNNABLE
+	 * @param cameraName Name of the camera, from the roboRIO WebDash
+	 * @param cameraMode Indicates if should run Camera as a SUBSYSTEM or in a separate THREAD
 	 */
-	public Camera(CameraMode mode)
+	public Camera(String cameraName, CameraMode cameraMode)
 	{
-		this(mode, RobotMap.primaryCameraName, null);
-	}
-	
-	public Camera(CameraMode mode, String primaryCameraName, String secondaryCameraName)
-	{
-		try
-		{
-			Files.deleteIfExists(Paths.get(exceptionLogFile));
-		}
-		catch (Exception ex)
-		{
-		}
+		this.cameraMode = cameraMode;
 		
-		this.mode = mode;
+		// Create a frame in which to receive images:
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		
-		primarySession = NIVision.IMAQdxOpenCamera(primaryCameraName,
+		// Create session used to access camera:
+		session = NIVision.IMAQdxOpenCamera(cameraName,
 				NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		NIVision.IMAQdxSetAttributeString(primarySession, "AcquisitionAttributes::VideoMode", videoMode);
-		
-		if (null != secondaryCameraName)
-		{
-			try
-			{
-				secondarySession = NIVision.IMAQdxOpenCamera(secondaryCameraName,
-						NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-				NIVision.IMAQdxSetAttributeString(secondarySession, "AcquisitionAttributes::VideoMode", videoMode);
-				hasSecondaryCamera = true;
-			}
-			catch (Exception ex)
-			{
-				try
-				{
-					PrintWriter pw = new PrintWriter(exceptionLogFile);
-					pw.println("Error creating secondary session");
-					ex.printStackTrace(pw);
-					pw.close();
-				}
-				catch (Exception ex2)
-				{
-					// do nothing
-				}
-			}
-		}
+		NIVision.IMAQdxSetAttributeString(session, "AcquisitionAttributes::VideoMode", videoMode);
 		
 		try
 		{
-			// Log some interesting vision processing information at /home/lvuser/data on the roboRIO file system.
+			// Make sure the directory that will hold the data files exists:
+			new File(dataDirectory).mkdirs();
 			
-			new File("/home/lvuser/data").mkdirs();
-			
-			PrintWriter pw = new PrintWriter(videoModesFile);
-			NIVision.dxEnumerateVideoModesResult result = NIVision.IMAQdxEnumerateVideoModes(primarySession);
+			// Dump the supported video modes to a file:
+			PrintWriter pw = new PrintWriter(Paths.get(dataDirectory, videoModesFile).toString());
+			NIVision.dxEnumerateVideoModesResult result = NIVision.IMAQdxEnumerateVideoModes(session);
 			pw.println("Current: \"" + result.videoModeArray[result.currentMode].Name + '"');
 			pw.println();
 			for (NIVision.IMAQdxEnumItem item : result.videoModeArray)
@@ -109,127 +78,59 @@ public class Camera extends Subsystem implements Runnable
 			}
 			pw.close();
 			
-			NIVision.IMAQdxWriteAttributes(primarySession, visionAttributesFile);
+			// Dump the supported vision attributes to a file:
+			NIVision.IMAQdxWriteAttributes(session, Paths.get(dataDirectory, visionAttributesFile).toString());
 		}
 		catch (Exception ex)
 		{
 			// do nothing
 		}
-				
-		// Default to acquiring images from the primary camera:
-		NIVision.IMAQdxConfigureGrab(primarySession);
-		NIVision.IMAQdxStartAcquisition(primarySession);
-		currentSession = primarySession;
-				
+		
+		// Configure NI Vision to use created camera session:
+		NIVision.IMAQdxConfigureGrab(session);
+		NIVision.IMAQdxStartAcquisition(session);
+		
+		// Start camera server that SmartDashboard will use:
 		CameraServer.getInstance().setQuality(50);
 		
-		if (mode == CameraMode.THREAD)
+		if (cameraMode == CameraMode.THREAD)
 		{
 			new Thread(this).start();
 		}
 	}
 
+	/**
+	 * Sets up the command used to process camera frames in the main robot execution loop.
+	 */
 	public void initDefaultCommand()
 	{
-		if (mode == CameraMode.SUBSYSTEM)
+		if (cameraMode == CameraMode.SUBSYSTEM)
 		{
 			setDefaultCommand(new ProcessCameraFrames(this));
 		}
 	}
 
-	public void processFrame()
+	/**
+	 * Grab the current frame from the camera and give it to the camera server.
+	 */
+	public void report()
 	{
-		if (currentSession == primarySession)
-		{
-			if (hasSecondaryCamera && Robot.oi.driveForward)
-			{
-				// We get here if we are acquiring images from the primary camera but
-				// the user wants images from the secondary camera. Stop acquiring from
-				// the primary camera and switch to acquiring from the secondary camera.
-				try
-				{
-					NIVision.IMAQdxStopAcquisition(currentSession);
-					NIVision.IMAQdxConfigureGrab(secondarySession);
-					NIVision.IMAQdxStartAcquisition(secondarySession);
-					currentSession = secondarySession;
-				}
-				catch (Exception ex)
-				{
-					try
-					{
-						PrintWriter pw = new PrintWriter(exceptionLogFile);
-						pw.println("Error switching to secondary session");
-						ex.printStackTrace(pw);
-						pw.close();
-					}
-					catch (Exception ex2)
-					{
-						// do nothing
-					}
-
-				}
-			}
-		}
-		else if (!Robot.oi.driveForward)
-		{
-			// We get here if we are acquiring images from the secondary camera but
-			// the user wants images from the primary camera. Stop acquiring from
-			// the secondary camera and switch to acquiring from the primary camera.
-			try
-			{
-				NIVision.IMAQdxStopAcquisition(currentSession);
-				NIVision.IMAQdxConfigureGrab(primarySession);
-				NIVision.IMAQdxStartAcquisition(primarySession);
-				currentSession = primarySession;
-			}
-			catch (Exception ex)
-			{
-				try
-				{
-					PrintWriter pw = new PrintWriter(exceptionLogFile);
-					pw.println("Error switching to primary session");
-					ex.printStackTrace(pw);
-					pw.close();
-				}
-				catch (Exception ex2)
-				{
-					// do nothing
-				}
-
-			}
-		}
-		
-		try
-		{
-			NIVision.IMAQdxGrab(currentSession, frame, 1);
-		}
-		catch (Exception ex)
-		{
-			try
-			{
-				PrintWriter pw = new PrintWriter(exceptionLogFile);
-				pw.println("Error calling IMAQdxGrab");
-				ex.printStackTrace(pw);
-				pw.close();
-			}
-			catch (Exception ex2)
-			{
-				// do nothing
-			}
-		}
-		//NIVision.imaqSetImageSize(frame, 320, 240);
+		NIVision.IMAQdxGrab(session, frame, 1);
 		CameraServer.getInstance().setImage(frame);
 	}
 	
+	/**
+	 * Entry point used to process camera frames in a separate thread.
+	 */
 	@Override
 	public void run()
 	{
 		while (true)
 		{
-			processFrame();
+			report();
 			try
 			{
-				Thread.sleep(20);
+				Thread.sleep(interFrameTimeMillis);
 			}
 			catch (InterruptedException e)
 			{

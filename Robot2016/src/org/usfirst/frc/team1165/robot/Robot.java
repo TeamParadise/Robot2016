@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot
 	public static final LinearActuatorPID linearActuator = new LinearActuatorPID();
 	public static final MoveServo moveServo = new MoveServo();
 	public static final Shooter shooter = new Shooter();
-	public static final Camera camera = new Camera(CameraMode.THREAD,"cam1","cam0");
+	public static final Camera camera = new Camera(RobotMap.primaryCameraName,CameraMode.THREAD);
 	public static final Winch winch = new Winch();
 	public static final ManipulationArm arm = new ManipulationArm();
 	public static OI oi;
