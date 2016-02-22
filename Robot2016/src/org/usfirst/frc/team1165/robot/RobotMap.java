@@ -28,6 +28,7 @@ public class RobotMap
     public static final int PICKUP_BUTTON_NUMBER				= Gamepad.Button.RIGHT_BUMP.getValue();
     public static final int SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER	= Gamepad.Button.LEFT_BUMP.getValue();
     public static final int SERVO_BUTTON_NUMBER 				= Gamepad.Button.Y.getValue();
+    public static final int WINCH_BUTTON						= Gamepad.Button.A.getValue();
     
     public static final int linearActuatorMotorChannel		= 3;
     
@@ -43,4 +44,6 @@ public class RobotMap
     public static final String linearActuatorSensorMaxKey	= "Linear Actuator Sensor Max";
     public static final String linearActuatorSetpointKey	= "Linear Actuator Setpoint";
 
+    public static final String primaryCameraName 			= "cam0";
+    public static final String secondaryCameraName 			= "cam1";
 }

@@ -13,8 +13,10 @@ import org.usfirst.frc.team1165.robot.subsystems.Camera.CameraMode;
 import org.usfirst.frc.team1165.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1165.robot.subsystems.LinearActuatorPID;
 import org.usfirst.frc.team1165.robot.subsystems.LinearActuatorSensor;
+import org.usfirst.frc.team1165.robot.subsystems.ManipulationArm;
 import org.usfirst.frc.team1165.robot.subsystems.MoveServo;
 import org.usfirst.frc.team1165.robot.subsystems.Shooter;
+import org.usfirst.frc.team1165.robot.subsystems.Winch;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,7 +32,9 @@ public class Robot extends IterativeRobot
 	public static final LinearActuatorPID linearActuator = new LinearActuatorPID();
 	public static final MoveServo moveServo = new MoveServo();
 	public static final Shooter shooter = new Shooter();
-	public static final Camera camera = new Camera("cam0", CameraMode.THREAD);
+	public static final Camera camera = new Camera(CameraMode.THREAD,"cam1","cam0");
+	public static final Winch winch = new Winch();
+	public static final ManipulationArm arm = new ManipulationArm();
 	public static OI oi;
 	public static boolean activeActuator = false;
     Command autonomousCommand;

@@ -7,39 +7,33 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PushBallToShooter extends Command
-{
-	double timeout;
-    public PushBallToShooter(double timeout) 
+public class RespoolWinch extends Command {
+
+    public RespoolWinch()
     {
-    	super(timeout);
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.moveServo);
+    	requires(Robot.winch);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() 
+    protected void initialize()
     {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	if(Robot.shooter.rightWheel.getSpeed()<-4700)
-    	Robot.moveServo.push();
-    	//Robot.moveServo.report();
+    	Robot.winch.respoolWinch();
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished()
+    protected boolean isFinished() 
     {
-    	return isTimedOut();
+        return !Robot.oi.respoolWinch.get();
     }
 
     // Called once after isFinished returns true
-    protected void end()
+    protected void end() 
     {
-    	Robot.moveServo.idle();
     }
 
     // Called when another command which requires one or more of the same

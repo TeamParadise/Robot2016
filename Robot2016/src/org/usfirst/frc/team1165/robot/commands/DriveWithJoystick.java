@@ -16,11 +16,24 @@ public class DriveWithJoystick extends Command {
 
     protected void initialize() 
     {
-    	
     }
 
     protected void execute()
     {
+    	if(Robot.oi.driveForward)
+    	{
+    		Robot.robotDrive.canTalon4.setInverted(true);
+    		Robot.robotDrive.canTalon5.setInverted(true);
+    		Robot.robotDrive.canTalon6.setInverted(true);
+    		Robot.robotDrive.canTalon7.setInverted(true);
+    	}
+    	else
+    	{
+    		Robot.robotDrive.canTalon4.setInverted(false);
+    		Robot.robotDrive.canTalon5.setInverted(false);
+    		Robot.robotDrive.canTalon6.setInverted(false);
+    		Robot.robotDrive.canTalon7.setInverted(false);
+    	}
     	Robot.robotDrive.arcadeDrive();
     }
 

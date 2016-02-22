@@ -50,7 +50,6 @@ public class LinearActuatorPID extends PIDSubsystem
 		
         // Construct the motor that drives the actuator.
 		motor = new CANTalon(RobotMap.linearActuatorMotorChannel);
-		motor.setInverted(true);
 		// Let's show everything on the LiveWindow:
         LiveWindow.addActuator("Actuator", "Motor", motor);
         LiveWindow.addSensor("Actuator", "Pot", Robot.linearActuatorSensor.getPot());
