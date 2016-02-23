@@ -34,7 +34,7 @@ public class OI
 	public final JoystickButton respoolWinch = new JoystickButton(leftStick,8);
 	public final JoystickButton flipDriveDirection = new JoystickButton(leftStick,1);
 	public final JoystickButton cameraButton = new JoystickButton(leftStick,2);
-	public boolean driveForward = false;
+	public boolean driveForward = true;
 	public boolean enableSecondaryCamera = false;
 	public OI()
 	{
@@ -50,7 +50,8 @@ public class OI
 		pickupButton.whenPressed(new PickupBall());
 		servoButton.whenPressed(new PushBallToShooter(2));
 		flipDriveDirection.whenPressed(new FlipDriveDirection());
-		cameraButton.whenPressed(new SwitchSecondayCamera());
+		flipDriveDirection.whenReleased(new FlipDriveDirection());
+		//cameraButton.whenPressed(new SwitchSecondayCamera());
 	}
 	
 	public double getActuatorSpeed()
@@ -58,9 +59,8 @@ public class OI
 		
 		return -Robot.oi.gamepad.getY(Hand.kLeft);
 	}
-	public boolean hasSecondaryCamera()
+	public boolean useSecondaryCamera()
 	{
-		return enableSecondaryCamera;
-		
+		return cameraButton.get();
 	}
 }
