@@ -16,6 +16,6 @@ public class DriveUnderLowBar extends CommandGroup
 		addSequential(new PrepareForLowBar());
 		//addSequential(new RotateToHeading(RobotMap.ROTATE_SPEED,RobotMap.BRAKE_OFFSET,180,RobotMap.ROTATE_CREEP_SPEED));
 		addSequential(new DriveStraight(0.75, 1.5));
-		addSequential(new RotateToHeading(RobotMap.ROTATE_SPEED,RobotMap.BRAKE_OFFSET,180,RobotMap.ROTATE_CREEP_SPEED));
+		addSequential(new RotateToHeading(RobotMap.ROTATE_SPEED,RobotMap.BRAKE_OFFSET,-180,RobotMap.ROTATE_CREEP_SPEED));
 	}
 }

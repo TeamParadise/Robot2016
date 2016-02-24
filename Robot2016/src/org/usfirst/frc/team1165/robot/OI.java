@@ -1,10 +1,11 @@
 package org.usfirst.frc.team1165.robot;
 
-import org.usfirst.frc.team1165.robot.commands.DriveOverDrawbridge;
+import org.usfirst.frc.team1165.robot.commands.CancelCommand;
 import org.usfirst.frc.team1165.robot.commands.DriveOverRockWall;
 import org.usfirst.frc.team1165.robot.commands.DriveOverTerrain;
 import org.usfirst.frc.team1165.robot.commands.DriveStraight;
 import org.usfirst.frc.team1165.robot.commands.DriveUnderLowBar;
+import org.usfirst.frc.team1165.robot.commands.DriveUnderPortcullis;
 import org.usfirst.frc.team1165.robot.commands.FlipDriveDirection;
 import org.usfirst.frc.team1165.robot.commands.FlipRobotFront;
 import org.usfirst.frc.team1165.robot.commands.RespoolWinch;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -31,20 +33,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OI
 {
 	public final Joystick leftStick = new Joystick(0);
-	//public final Joystick rightStick = new Joystick(0);
 	public final Gamepad gamepad = new Gamepad(1);
-	public final JoystickButton servoButton = new JoystickButton(gamepad, RobotMap.SERVO_BUTTON_NUMBER);
-	public final JoystickButton pickupButton = new JoystickButton(gamepad,RobotMap.PICKUP_BUTTON_NUMBER);
-	public final JoystickButton pushOutButton = new JoystickButton(gamepad,RobotMap.SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER);
-	public final JoystickButton winchButton = new JoystickButton(gamepad, RobotMap.WINCH_BUTTON);
-	public final JoystickButton respoolWinch = new JoystickButton(leftStick,8);
-	public final JoystickButton flipDriveDirection = new JoystickButton(leftStick,1);
-	public final JoystickButton cameraButton = new JoystickButton(leftStick,2);
-	public final JoystickButton flipFront = new JoystickButton(leftStick,7);
-	public final JoystickButton lowBarButton = new JoystickButton(leftStick,9);
-	public final JoystickButton terrainButton = new JoystickButton(leftStick,10);
-	public final JoystickButton drawBridgeButton = new JoystickButton(leftStick,11);
-	public final JoystickButton rockWall = new JoystickButton(leftStick,12);
+	public final JoystickButton servoButton 		= new JoystickButton(gamepad, RobotMap.SERVO_BUTTON_NUMBER);
+	public final JoystickButton pickupButton 		= new JoystickButton(gamepad,RobotMap.PICKUP_BUTTON_NUMBER);
+	public final JoystickButton pushOutButton 		= new JoystickButton(gamepad,RobotMap.SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER);
+	public final JoystickButton winchButton 		= new JoystickButton(gamepad, RobotMap.WINCH_BUTTON);
+	public final JoystickButton cancelButton 		= new JoystickButton(gamepad,RobotMap.CANCEL_BUTTON);
+	public final JoystickButton flipDriveDirection 	= new JoystickButton(leftStick,1);
+	public final JoystickButton cameraButton 		= new JoystickButton(leftStick,2);
+	public final JoystickButton portcullisButton 	= new JoystickButton(leftStick,3);
+	public final JoystickButton flipFront 			= new JoystickButton(leftStick,7);
+	public final JoystickButton respoolWinch 		= new JoystickButton(leftStick,8);
+	public final JoystickButton lowBarButton 		= new JoystickButton(leftStick,9);
+	public final JoystickButton terrainButton 		= new JoystickButton(leftStick,10);
+//	public final JoystickButton drawBridgeButton 	= new JoystickButton(leftStick,11);
+	public final JoystickButton rockWall 			= new JoystickButton(leftStick,12);
 	public boolean driveForward = true;
 	public boolean enableSecondaryCamera = false;
 	public OI()
@@ -66,9 +69,10 @@ public class OI
 		flipFront.whenPressed(new FlipRobotFront());
 		lowBarButton.whenPressed(new DriveUnderLowBar());
 		terrainButton.whenPressed(new DriveOverTerrain());
-		drawBridgeButton.whenPressed(new DriveOverDrawbridge());
 		rockWall.whenPressed(new DriveOverRockWall());
-		//driveStrightTime.whenPressed(new DriveStraight(-0.75283,1));
+		cancelButton.whenPressed(new CancelCommand());
+		portcullisButton.whenPressed(new DriveUnderPortcullis());
+		//drawbridgeButton.whenPressed(new DriveOverDrawbridge());
 	}
 	
 	public double getActuatorSpeed()

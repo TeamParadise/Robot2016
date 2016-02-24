@@ -60,9 +60,16 @@ public class AbsoluteEncoder extends Subsystem
     }
     public void resetEncoder()
     {
-    	initialValue = 182;
-    	lowerLimit = 133;
-    	upperLimit = 235;
+    	if(0 <= SmartDashboard.getNumber("ArmInitialValue"))
+    	{
+    		initialValue = SmartDashboard.getNumber("ArmInitialValue");
+    	}
+    	else
+    	{
+    		initialValue = 182;
+    	}
+    	lowerLimit = initialValue-51;
+    	upperLimit = initialValue+53;
     }
     public double getCorrectedValue()
     {
