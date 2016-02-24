@@ -1,6 +1,12 @@
 package org.usfirst.frc.team1165.robot;
 
+import org.usfirst.frc.team1165.robot.commands.DriveOverDrawbridge;
+import org.usfirst.frc.team1165.robot.commands.DriveOverRockWall;
+import org.usfirst.frc.team1165.robot.commands.DriveOverTerrain;
+import org.usfirst.frc.team1165.robot.commands.DriveStraight;
+import org.usfirst.frc.team1165.robot.commands.DriveUnderLowBar;
 import org.usfirst.frc.team1165.robot.commands.FlipDriveDirection;
+import org.usfirst.frc.team1165.robot.commands.FlipRobotFront;
 import org.usfirst.frc.team1165.robot.commands.RespoolWinch;
 import org.usfirst.frc.team1165.robot.commands.StartWinch;
 import org.usfirst.frc.team1165.robot.commands.PickupBall;
@@ -34,6 +40,11 @@ public class OI
 	public final JoystickButton respoolWinch = new JoystickButton(leftStick,8);
 	public final JoystickButton flipDriveDirection = new JoystickButton(leftStick,1);
 	public final JoystickButton cameraButton = new JoystickButton(leftStick,2);
+	public final JoystickButton flipFront = new JoystickButton(leftStick,7);
+	public final JoystickButton lowBarButton = new JoystickButton(leftStick,9);
+	public final JoystickButton terrainButton = new JoystickButton(leftStick,10);
+	public final JoystickButton drawBridgeButton = new JoystickButton(leftStick,11);
+	public final JoystickButton rockWall = new JoystickButton(leftStick,12);
 	public boolean driveForward = true;
 	public boolean enableSecondaryCamera = false;
 	public OI()
@@ -51,7 +62,13 @@ public class OI
 		servoButton.whenPressed(new PushBallToShooter(2));
 		flipDriveDirection.whenPressed(new FlipDriveDirection());
 		flipDriveDirection.whenReleased(new FlipDriveDirection());
-		//cameraButton.whenPressed(new SwitchSecondayCamera());
+		cameraButton.whenPressed(new SwitchSecondayCamera());
+		flipFront.whenPressed(new FlipRobotFront());
+		lowBarButton.whenPressed(new DriveUnderLowBar());
+		terrainButton.whenPressed(new DriveOverTerrain());
+		drawBridgeButton.whenPressed(new DriveOverDrawbridge());
+		rockWall.whenPressed(new DriveOverRockWall());
+		//driveStrightTime.whenPressed(new DriveStraight(-0.75283,1));
 	}
 	
 	public double getActuatorSpeed()
@@ -61,6 +78,6 @@ public class OI
 	}
 	public boolean useSecondaryCamera()
 	{
-		return cameraButton.get();
+		return enableSecondaryCamera;
 	}
 }

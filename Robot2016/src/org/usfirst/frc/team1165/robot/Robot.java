@@ -8,9 +8,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import org.usfirst.frc.team1165.robot.subsystems.AbsoluteEncoder;
 import org.usfirst.frc.team1165.robot.subsystems.Camera;
 import org.usfirst.frc.team1165.robot.subsystems.Camera.CameraMode;
 import org.usfirst.frc.team1165.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team1165.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team1165.robot.subsystems.LinearActuatorPID;
 import org.usfirst.frc.team1165.robot.subsystems.LinearActuatorSensor;
 import org.usfirst.frc.team1165.robot.subsystems.ManipulationArm;
@@ -32,9 +34,14 @@ public class Robot extends IterativeRobot
 	public static final LinearActuatorPID linearActuator = new LinearActuatorPID();
 	public static final MoveServo moveServo = new MoveServo();
 	public static final Shooter shooter = new Shooter();
-	public static final Camera camera = new Camera(CameraMode.THREAD,RobotMap.primaryCameraName,RobotMap.secondaryCameraName);
 	public static final Winch winch = new Winch();
 	public static final ManipulationArm arm = new ManipulationArm();
+	public static final AbsoluteEncoder absoluteEncoder = new AbsoluteEncoder();
+	public static final Gyroscope gyroscope = new Gyroscope();
+	public static Camera camera;
+	/*DO NOT INSTANTIATE CAMERA HERE.TWO CAMERAS REQUIRE OI TO BE INSTANTIATED WHICH IS DONE BELOW.
+	*INSTEAD, Instantiate Camera in Robot Init AFTER THE OI IS INSTANTIATED.
+	*/
 	public static OI oi;
 	public static boolean activeActuator = false;
     Command autonomousCommand;
@@ -46,6 +53,7 @@ public class Robot extends IterativeRobot
     public void robotInit() {
 		oi = new OI();
         // instantiate the command used for the autonomous period
+		camera = new Camera(CameraMode.THREAD, RobotMap.primaryCameraName, RobotMap.secondaryCameraName);
     }
 	
 	public void disabledPeriodic() {

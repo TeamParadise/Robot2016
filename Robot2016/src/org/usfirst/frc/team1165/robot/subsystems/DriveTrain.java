@@ -19,7 +19,7 @@ public class DriveTrain extends Subsystem
 	public CANTalon canTalon6;
 	public CANTalon canTalon7;
 	RobotDrive robotDrive;
-	
+	double twist;
    public DriveTrain()
    {
 	   canTalon4 = new CANTalon(4);
@@ -40,10 +40,16 @@ public class DriveTrain extends Subsystem
     }
     public void arcadeDrive()
     {
-    	double twist = Robot.oi.leftStick.getTwist()*0.7524;
+    	twist = Robot.oi.leftStick.getTwist()*0.7524;
     	if(!Robot.oi.driveForward)
     		twist = -twist;
     	//robotDrive.arcadeDrive(Robot.oi.leftStick,Joystick.AxisType.kY.value,Robot.oi.leftStick,Joystick.AxisType.kZ.value,true);
     	robotDrive.arcadeDrive(Robot.oi.leftStick.getY(), twist);
+    }
+    public void arcadeDrive(double magY,double twist)
+    {
+    	this.twist = twist;
+    	//robotDrive.arcadeDrive(Robot.oi.leftStick,Joystick.AxisType.kY.value,Robot.oi.leftStick,Joystick.AxisType.kZ.value,true);
+    	robotDrive.arcadeDrive(magY, twist);
     }
 }

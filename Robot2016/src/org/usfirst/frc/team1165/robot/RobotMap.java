@@ -25,15 +25,25 @@ public class RobotMap
 	
     public static final int joystickPort0					= 0;
     
-    public static final int PICKUP_BUTTON_NUMBER				= Gamepad.Button.RIGHT_BUMP.getValue();
-    public static final int SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER	= Gamepad.Button.LEFT_BUMP.getValue();
+    public static final int PICKUP_BUTTON_NUMBER				= Gamepad.Button.LEFT_BUMP.getValue();
+    public static final int SHOOT_AT_HIGH_GOAL_BUTTON_NUMBER	= Gamepad.Button.RIGHT_BUMP.getValue();
     public static final int SERVO_BUTTON_NUMBER 				= Gamepad.Button.Y.getValue();
     public static final int WINCH_BUTTON						= Gamepad.Button.A.getValue();
-    
+      
+    public static final int ROTATE_TO_HEADING_TIMEOUT				= 3;
+    public static final double DRIVE_SPEED 							=   0.4;		// Drive magnitude
+    public static final double DRIVE_START_SPEED 					=   0.5;		// Drive magnitude
+    public static final double ROTATE_SPEED 						=   0.6;	// Rotate magnitude
+    public static final double ROTATE_CREEP_SPEED 					=   0.5;	// Rotate magnitude
+/*    public static final double CREEP_DISTANCE						=   30;		// Inches
+    public static final double CREEP_TO_OBJECT_TIMEOUT				=   7.5;	// seconds
+*/    public static final double BRAKE_OFFSET							=   15;//degrees
+
     public static final int linearActuatorMotorChannel		= 3;
-    
     public static final int linearActuatorSensorPort		= 0;
     
+    public static final int ABSOLUTE_ENCODER_PORT			= 2;
+    public static final int GYROSCOPE_PORT					= 1;
     //public static final Joystick SERVO_STICK = Robot.oi.rightStick;
     
     public static final String linearActuatorSpeedKey		= "Linear Actuator Speed";
